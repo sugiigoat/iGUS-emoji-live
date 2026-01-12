@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>iGUS Emoji Translator</title>
+<style>
+/* ---------- Body ---------- */
+body {
+  background-color: #0d0d0d; 
+  color: #e0e0e0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+
+/* ---------- Splash ---------- */
+#splash {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background-color:#111;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+  opacity:1;
+  transition:opacity 0.5s ease;
+  text-align:center;
+}
+
+#splash h1 {
+  font-size: 2.5em;
+  color: #00bfa5;
+  margin: 0.2em;
+  text-shadow: 0 0 5px #00bfa5,0 0 10px #00bfa5;
+}
+
+#splash p {
+  font-size: 1.5em;
+  color: #aaa;
+  margin: 0.2em;
+}
+
+#splash .splash-sugii {
+  font-weight:bold;
+  animation: splashColorFade 3s linear infinite;
+}
+
+@keyframes splashColorFade {
+  0%   { color: #ff4dd2; }
+  25%  { color: #4dd2ff; }
+  50%  { color: #ffdb4d; }
+  75%  { color: #8dff4d; }
+  100% { color: #ff4dd2; }
+}
+
+/* ---------- Header ---------- */
+header {
+  width: 100%;
+  padding: 25px 0;
+  text-align: center;
+  position: relative;
+  border-bottom: 2px solid #222;
+}
+
+header h1 {
+  font-size: 2.5em;
+  color: #00bfa5;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+header .by-sugii {
+  font-size: 1.2em;
+  margin-top:5px;
+}
+
+.by-sugii .sugii {
+  font-weight:bold;
+  animation: sugiiFade 5s linear infinite;
+}
+
+@keyframes sugiiFade {
+  0% { color:#ff4dd2; }
+  25% { color:#4dd2ff; }
+  50% { color:#ffdb4d; }
+  75% { color:#8dff4d; }
+  100% { color:#ff4dd2; }
+}
+
+/* ---------- Top Right ---------- */
+.footer {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  color: #00bfa5;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+}
+
+/* ---------- Main ---------- */
+main {
+  flex:1;
+  width:90%;
+  max-width:900px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  margin-top:40px;
+}
+
+h2 {
+  font-size:2em;
+  margin-bottom:20px;
+  color:#00bfa5;
+  text-transform:uppercase;
+}
+
+textarea {
+  width:100%;
+  height:120px;
+  font-size:20px;
+  padding:15px;
+  margin:12px 0;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  resize:none;
+  background-color:#111;
+  color:#fff;
+  box-shadow:0 0 8px #00bfa5 inset;
+}
+
+textarea::placeholder { color:#555; }
+
+button {
+  padding:14px 30px;
+  font-size:20px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  margin:8px;
+  background: linear-gradient(45deg, #00bfa5, #ff8c00);
+  color:#111;
+  font-weight:bold;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 10px #00bfa5,0 0 10px #ff8c00;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow:0 0 20px #00bfa5,0 0 20px #ff8c00;
+}
+
+#copyMsg {
+  color:#0f0;
+  display:none;
+  margin-top:10px;
+  font-weight:bold;
+}
+
+/* ---------- Emoji Keyboard ---------- */
+#emojiKeyboard button {
+  font-size: 18px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin: 2px;
+  background: linear-gradient(45deg, #00bfa5, #ff8c00);
+  color:#111;
+  cursor:pointer;
+}
+
+/* ---------- Footer fixed ---------- */
+.bottom-footer {
+  position: fixed;
+  bottom: 0; 
+  left: 0;
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  color: #555;
+  background-color: #0d0d0d;
+  border-top: 2px solid #222;
+  font-size: 0.9em;
+  z-index: 999;
+}
+</style>
+</head>
+<body>
+
+<!-- Splash -->
+<div id="splash">
+  <h1>iGUS EMOJI LANGUAGE TRANSLATOR</h1>
+  <p>iGUS_ELECTRO</p>
+  <p class="splash-sugii">--Sugirdan</p>
+</div>
+
+<header>
+  <h1>iGUS EMOJI LANGUAGE TRANSLATOR</h1>
+  <div class="by-sugii">By <span class="sugii">Sugii</span></div>
+  <div class="footer">iGUS_ELECTRO</div>
+</header>
+
+<main>
+  <h2>Emoji Language Translator</h2>
+  <textarea id="input" placeholder="Type text or emojis here"></textarea>
+  <div>
+    <button onclick="textToEmoji()">Text → Emoji</button>
+    <button onclick="emojiToText()">Emoji → Text</button>
+    <button onclick="copyOutput()">Copy</button>
+  </div>
+  <textarea id="output" placeholder="Output"></textarea>
+  <p id="copyMsg">✅ Copied!</p>
+
+  <!-- Clickable iGUS Emoji Keyboard -->
+  <div id="emojiKeyboard" style="margin-top:20px; text-align:center;">
+    <h3 style="color:#00bfa5;">Click a Letter to Convert</h3>
+    <div id="letters" style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:10px;"></div>
+  </div>
+</main>
+
+<div class="bottom-footer">&copy; 2026 iGUS_ELECTRO. All Rights Reserved.</div>
+
+<script>
+// ---------- Splash Fade ----------
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const splash = document.getElementById('splash');
+    splash.style.opacity='0';
+    setTimeout(()=>{ splash.style.display='none'; },500);
+  },2000);
+});
+
+// ---------- Emoji Mapping ----------
+const textToEmojiMap = {
+    a:"😀",b:"😃",c:"😄",d:"😁",e:"😆",
+    f:"😅",g:"😂",h:"🤣",i:"😊",j:"😇",
+    k:"🙂",l:"🙃",m:"😉",n:"😌",o:"👻",
+    p:"🐮",q:"🤖",r:"💩",s:"✨",t:"🤡",
+    u:"😋",v:"😛",w:"😜",x:"🤪",y:"🤨",z:"🧐"
+};
+
+// ---------- Functions ----------
+function textToEmoji(){
+  const input = document.getElementById('input').value.toLowerCase();
+  let output='';
+  for(let char of input){
+    output += textToEmojiMap[char] || char;
+  }
+  document.getElementById('output').value=output;
+}
+
+function emojiToText(){
+  const input = document.getElementById('input').value;
+  let output='';
+  for(let char of input){
+    const found = Object.keys(textToEmojiMap).find(k=>textToEmojiMap[k]===char);
+    output += found || char;
+  }
+  document.getElementById('output').value=output;
+}
+
+function copyOutput(){
+  const output = document.getElementById('output');
+  output.select();
+  output.setSelectionRange(0,99999);
+  document.execCommand('copy');
+  const msg = document.getElementById('copyMsg');
+  msg.style.display='block';
+  setTimeout(()=>{msg.style.display='none';},2000);
+}
+
+// ---------- Generate clickable letters ----------
+const lettersDiv = document.getElementById('letters');
+const letters = Object.keys(textToEmojiMap);
+
+letters.forEach(letter => {
+  const btn = document.createElement('button');
+  btn.innerText = letter.toUpperCase();
+  btn.onclick = () => {
+    const emoji = textToEmojiMap[letter];
+    const output = document.getElementById('output');
+    output.value += emoji;
+  };
+  lettersDiv.appendChild(btn);
+});
+</script>
+</body>
+</html>
